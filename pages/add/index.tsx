@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import {useRouter} from 'next/router'
+import Router from "next/router";
+import { useEffect } from "react";
+import { useSession, signOut } from 'next-auth/react';
 
 export default function addPosts() {
     const router = useRouter()
@@ -33,8 +36,15 @@ export default function addPosts() {
     }
   };
 
-
-    return (
+  const { data: session, status } = useSession()
+  const user = session?.user;
+  console.log(session)
+  useEffect (() => {
+    if (status === "unauthenticated") Router.replace ("/");
+    }, [status]);
+  
+    if (status === "authenticated")
+      return (
     <><title>Test MongoDb Add</title>
             <div>
           <form action = '' method="post" onSubmit={handleSubmit}>
