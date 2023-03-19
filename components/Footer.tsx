@@ -1,8 +1,15 @@
+/**
+ * To create footer for the whole site as a reusable component
+ */
 import {
   Box,
   Text,
 } from '@chakra-ui/react';
 
+/**
+ * To create footer for the whole site
+ * @returns the footer for all the pages of the site
+ */
 export default function Navbar() {
   return (
     <Box 

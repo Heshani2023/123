@@ -1,9 +1,20 @@
+/**
+ * Designing a table view for Admins to display their current quizzes
+ */
 import { Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
-import { Quiz } from "../types/admin_quiz";
+import { Quiz } from "../src/models/QuizAdmin";
 
+/**
+ * Interface props to define the Quiz using the types defined in tpes/admin_quiz file.
+ */
 interface Props {
   quizzes: Quiz[];
 }
+
+/**
+ * Defined the array of Quiz data for loading data for the quiz data table. 
+ * This Json array will be replaced by the backend developer with database data
+ */
 const quizzes: Quiz[] = [
   {
     id: 1,
@@ -48,6 +59,11 @@ const quizzes: Quiz[] = [
   // Add more quizzes as needed
 ];
 
+/**
+ * To define the table and map it with the quiz data object
+ * @param param0 : Quiz object created with the types for loading data
+ * @returns a table of quiz data related to the admin
+ */
 const QuizTable = ({ quizzes }: Props) => {
   return (
     <Table variant="striped">
@@ -87,6 +103,10 @@ const QuizTable = ({ quizzes }: Props) => {
   );
 };
 
+/**
+ * To load data to the designed QuizTable
+ * @returns data for the quiz table
+ */
 const TableView2 = () => {
   return <QuizTable quizzes={quizzes} />;
 };

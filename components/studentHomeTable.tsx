@@ -1,42 +1,56 @@
-import { Table, Thead, Tbody, Tr, Th, Td, Button, Center } from "@chakra-ui/react";
-import { Quiz } from "../types/student_quiz";
+/**
+ * Designing a table view for students to display their current quizzes
+ */
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Button,
+  Center,
+} from "@chakra-ui/react";
+import Quiz from "../src/models/Quiz";
 
-interface Props {
-  quizzes: Quiz[];
+/**
+ * Interface props to define the Quiz
+ */
+interface QuizProps {
+  quizzes: Array<Quiz>;
 }
-const quizzes: Quiz[] = [
-  {
-    id: 1,
-    name: "Quiz 1",
-    subject: "Math",
-    type: "Multiple Choice",
-    marks:"16/20"
-  },
-  {
-    id: 2,
-    name: "Quiz 2",
-    subject: "English",
-    type: "True or False",
-    marks:"80%"
-  },
-  {
-    id: 3,
-    name: "Quiz 8",
-    subject: "Science",
-    type: "Fill in the Blanks",
-    marks:"30%"
-  },
-  {
-    id: 4,
-    name: "Quiz 15",
-    subject: "IQ",
-    type: "Short Answer",
-    marks:"90/100"
-  },
-  // Add more quizzes as needed
-];
 
-const QuizTable = ({ quizzes }: Props) => {
+
+export async function updateMarks(postId: number, marks: number) {
+  try {
+    const options:any = {
+      method: "POST",
+      
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+
+      body: `{"marks": ${marks}}`
+    }
+
+    let response = await fetch(`/api/quizes/post?id=${postId}`,options)
+    .then (response => response.json())
+    .then (response => console.log(response))
+    .catch(err => console.error(err));
+    
+    window.location.reload();
+  } catch (error) {
+    console.log("An error occured while updating marks ", error);
+  }
+}
+
+/**
+ * To define the table and map it with the quiz data object
+ * @param param0 : Quiz object created with the types for loading data
+ * @returns a table of quiz data related to the student/quiztaker
+ */
+export default function QuizTable({ quizzes }: QuizProps) {
   return (
     <Table variant="striped">
       <Thead>
@@ -50,23 +64,21 @@ const QuizTable = ({ quizzes }: Props) => {
       </Thead>
       <Tbody>
         {quizzes.map((quiz) => (
-          <Tr key={quiz.id}>
+          <Tr key={quiz._id}>
             <Td>{quiz.name}</Td>
             <Td>{quiz.subject}</Td>
             <Td>{quiz.type}</Td>
             <Td>{quiz.marks}</Td>
             <Td textAlign={"right"}>
-              <Button colorScheme="orange">Retake Quiz</Button>
+              <Button colorScheme="orange" onClick={() => updateMarks(quiz._id as Number, -1)}>Retake Quiz
+              
+              </Button>
             </Td>
           </Tr>
         ))}
       </Tbody>
     </Table>
   );
-};
+}
 
-const TableView2 = () => {
-  return <QuizTable quizzes={quizzes} />;
-};
 
-export default TableView2;

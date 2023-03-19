@@ -1,7 +1,11 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
-import clientPromise from "../../../lib/mongodb"
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import clientPromise from "../../../src/lib/mongodb";
+
+/**
+  Authentication options for NextAuth.JS
+*/
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -13,7 +17,14 @@ const authOptions: NextAuthOptions = {
     CredentialsProvider({
       type: "credentials",
       credentials: {},
-      async authorize(credentials, req) {        
+      /**
+       * Authorize callback function. It checks the DB connection and checks the user ID and password for validation.
+       * @param {Object} credentials - User credentials
+       * @param {Object} req - Request object
+       * @returns {Promise<Object>} - User object
+       */
+
+      async authorize(credentials, req) {
         const client = await clientPromise;
         const db = client.db("test");
         const { email, password } = credentials as {
@@ -23,39 +34,46 @@ const authOptions: NextAuthOptions = {
 
         const user = await db.collection("users").findOne({
           email: email,
-          password : password
+          password: password,
         });
-        
-        console.log("user found " ,user)
+
+        console.log("user found ", user);
         if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user
+          // The user object that we have received from the DB
+          return user;
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null
-  
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+          // If no user found then return null
+          return null;
         }
-      }
-    })
+      },
+    }),
   ],
   pages: {
-    signIn: '/',
-    signOut: '/',
-    error: '/auth/error', // Error code passed in query string as ?error=
-    verifyRequest: '/auth/verify-request', // (used for check email message)
-    newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+    signIn: "/", // Sign in page
+    signOut: "/", // Sign Out page
   },
-  
+
   callbacks: {
-    jwt(params) {
-      // update token
-      if (params.user?.role) {
-        params.token.role = params.user.role;
+    async signIn({ user, account, profile, email, credentials }) {
+      return user;
+    },
+    //   jwt callback is only called when token is created
+    async jwt({ token, user }) {
+
+      if (user) {
+        token.user = user;
       }
+      console.log(token);
+      return Promise.resolve(token);
+    },
+
+    session: async ({ session, token }) => {
+
+      // session callback is called whenever a session for that particular user is checked
       
-      // return final_token
-      return params.token;
+      session.user = token.user;
+      session.user.role = token.user.role;
+      return Promise.resolve(session);
     },
   },
 };

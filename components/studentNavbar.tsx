@@ -1,3 +1,12 @@
+/**
+ * Defining NavBar for all the student pages using Chakra UI Framwork for react
+ */
+import { useSession, signOut } from 'next-auth/react';
+
+import Router from "next/router";
+import { useEffect } from "react";
+
+
 import { ReactNode } from 'react';
 import {
   Box,
@@ -16,8 +25,16 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon} from '@chakra-ui/icons';
 
+/**
+ * Defining the Menu links in an array for easy customization
+ */
 const Links = ['Home','Take a Quiz'];
 
+/**
+ * To create links for the navigation bar items
+ * @param param0 If there are any children properties for Navlink 
+ * @returns the navigation links which are currently set to display the same page
+ */
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
     fontWeight={"bold"}
@@ -33,8 +50,15 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
+/**
+ * For creating the navigation bar styles and mapping of the Link array data as menu items
+ * @returns Navigation bar for all the pages for students mapped with the values in the Links array
+ */
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data: session, status } = useSession()
+  const user = session?.user;
+  console.log(session?.user?.name)
 
   return (
     <>
@@ -67,7 +91,7 @@ export default function Navbar() {
                 variant={'link'}
                 href={'#'}
                 margin={5}>
-                Student Name
+                {session?.user?.name}
             </Button>
             <Button
               variant={'solid'}
