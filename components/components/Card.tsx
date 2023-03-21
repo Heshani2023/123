@@ -1,11 +1,11 @@
 /**
- * To create title card for QuizBank Page
+ * To create title card for the whole site as a reusable component
  */
 import { Box,chakra } from "@chakra-ui/react";
 
 /**
- * Creating the title card for the quizbank page
- * @returns the title of quizbank page
+ * Creating the title card for the dashboard pages for students ans admins
+ * @returns the title of the tables in both dashboard pages
  */
 export default function Card() {
   return (
@@ -17,7 +17,7 @@ export default function Card() {
         fontWeight={"bold"}
         color={"gray.800"}
       >
-        Quiz Bank
+        My Quizzes
       </chakra.h1>
     </Box>
   );
