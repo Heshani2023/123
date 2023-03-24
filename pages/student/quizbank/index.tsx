@@ -6,7 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import NavBar from "../../../components/studentNavbar";
 import Footer from "../../../components/Footer";
 import Card from "../../../components/QuizBankTitle";
-import QuizTable from "../../../components/QuizBankTable";
+import QuizBankView from "../../../components/QuizBankTable";
 import { Box } from "@chakra-ui/react";
 import clientPromise from "../../../src/lib/mongodb";
 
@@ -18,7 +18,6 @@ export async function getServerSideProps() {
     const quizzes = await db
       .collection("quizes")
       .find({})
-      .sort({ marks: -1 })
       .toArray();
 
     return {
@@ -49,7 +48,7 @@ export default function QuizBank({ quizzes }) {
             <Card />
           </Box>
           <Box flex="1" width="80%" mx="auto" justifyContent="center" display={"inline-block"} marginTop={"10"}>
-            <QuizTable quizzes={quizzes} />
+            <QuizBankView quizzes={quizzes} />
           </Box>
           <Footer />
         </Box>
