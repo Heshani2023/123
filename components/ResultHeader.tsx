@@ -43,7 +43,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('orange.200', 'orange.700'),
+      bg: useColorModeValue('gray.200', 'gray.700'),
     }}
     href={'#'}>
     {children}
@@ -54,7 +54,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
  * For creating the navigation bar styles and mapping of the Link array data as menu items
  * @returns Navigation bar for all the pages for students mapped with the values in the Links array
  */
-export default function Navbar() {
+export default function ResultHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: session, status } = useSession()
 
@@ -71,52 +71,8 @@ export default function Navbar() {
           />
           <HStack spacing={18} alignItems={'center'}>
             <Box><Image src="../img/logo.png" alt="Quizzeria" /></Box>
-
-            <HStack
-              as={'nav'}
-              spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
-            <Button
-                as={'a'}
-                fontSize={'sm'}
-                color={'#CC5801'}
-                fontWeight={'bold'}
-                variant={'link'}
-                href={'#'}
-                margin={5}>
-                {session?.user?.name}
-            </Button>
-            <Button
-              variant={'solid'}
-              colorScheme={'orange'}
-              size={'sm'}
-              mr={4}
-              onClick={() => signOut()}
-              >
-              Log Out
-            </Button>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    '../img/avatar.png'
-                  }
-                />
-              </MenuButton>
-            </Menu>
-          </Flex>
+        
         </Flex>
 
         {isOpen ? (

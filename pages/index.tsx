@@ -13,6 +13,7 @@ import type { NextPage } from "next";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import Router from "next/router";
+import Head from "next/head";
 import {
   Container,
   InputGroup,
@@ -112,6 +113,14 @@ const signPage: NextPage = () => {
   if (status === "unauthenticated")
     return (
       <>
+
+      <Head>
+            <title>Quiz App Login</title>
+            <meta name="description" content="Quiz App Home for Admin" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="icon" href="/favicon.ico" />
+       </Head>
+
         <Container
           maxWidth="100vw"
           minHeight="100vh"

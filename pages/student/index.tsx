@@ -7,6 +7,10 @@ import QuizTable from "../../components/studentHomeTable";
 import { Box } from "@chakra-ui/react";
 import clientPromise from "../../src/lib/mongodb";
 import Quiz from "../../src/models/Quiz";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 export async function getServerSideProps() {
   try {
     const client = await clientPromise;
@@ -27,26 +31,48 @@ export async function getServerSideProps() {
 }
 
 export default function StudentHome({ quizzes }) {
-  return (
-    <>
-      <Head>
-        <title>Quiz App</title>
-        <meta name="description" content="Quiz App Home for students" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <ChakraProvider>
-        <Box minHeight="100vh" display="flex" flexDirection="column">
-          <NavBar />
-          <Box justifyContent="center">
-            <Card />
-          </Box>
-          <Box flex="1" width="80%" mx="auto" justifyContent="center">
-            <QuizTable quizzes={quizzes} />
-          </Box>
-          <Footer />
-        </Box>
-      </ChakraProvider>
-    </>
-  );
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  
+  const userRole = (session: any) => {
+    let role = session?.user?.role;
+    if (role) return role;
+    return null;
+  };
+
+  useEffect (() => {
+    if (status === "unauthenticated") router.replace ("/");
+    }, [status]);
+  
+    if (status === "authenticated"){
+      var role: any = userRole(session);
+
+      if (role == "admin") {
+        router.replace("/admin");
+      } else if (role == "student") {
+        
+      return (
+        <>
+          <Head>
+            <title>Quiz App</title>
+            <meta name="description" content="Quiz App Home for students" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <ChakraProvider>
+            <Box minHeight="100vh" display="flex" flexDirection="column">
+              <NavBar />
+              <Box justifyContent="center">
+                <Card />
+              </Box>
+              <Box flex="1" width="80%" mx="auto" justifyContent="center">
+                <QuizTable quizzes={quizzes} />
+              </Box>
+              <Footer />
+            </Box>
+          </ChakraProvider>
+        </>
+      );
+    }
+  }
 }

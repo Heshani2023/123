@@ -39,7 +39,6 @@ export default function QuizBank({ quizzes }) {
         <meta name="description" content="Quiz App Home for students" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="../../../components/styles.css" />
       </Head>
       <ChakraProvider>
         <Box minHeight="100vh" display="flex" flexDirection="column">

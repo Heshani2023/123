@@ -1,7 +1,7 @@
 /**
  * To create title card for the whole site as a reusable component
  */
-import { Box,chakra } from "@chakra-ui/react";
+import { Box, Heading, chakra } from "@chakra-ui/react";
 
 /**
  * Creating the title card for the dashboard pages for students ans admins
@@ -9,16 +9,8 @@ import { Box,chakra } from "@chakra-ui/react";
  */
 export default function Card() {
   return (
-    <Box textAlign={"center"} width={"100%"} margin={"auto"}>
-      <chakra.h1
-        py={5}
-        fontSize={48}
-        fontFamily={"Work Sans"}
-        fontWeight={"bold"}
-        color={"gray.800"}
-      >
-        My Quizzes
-      </chakra.h1>
+    <Box textAlign={"center"} width={"100%"} margin={"auto"} paddingTop={'2vh'} paddingBottom={'3vh'}>
+      <Heading fontSize={'4xl'}>My Quizzes</Heading>
     </Box>
   );
 }
