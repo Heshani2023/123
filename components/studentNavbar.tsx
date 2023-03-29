@@ -43,7 +43,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('orange.200', 'orange.700'),
+      bg: useColorModeValue('gray.200', 'gray.700'),
     }}
     href={'#'}>
     {children}
@@ -85,8 +85,7 @@ export default function Navbar() {
             <Button
                 as={'a'}
                 fontSize={'sm'}
-                color={'#CC5801'}
-                fontWeight={'bold'}
+                fontWeight={400}
                 variant={'link'}
                 href={'#'}
                 margin={5}>
@@ -111,7 +110,7 @@ export default function Navbar() {
                 <Avatar
                   size={'sm'}
                   src={
-                    '../img/avatar.png'
+                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
                   }
                 />
               </MenuButton>

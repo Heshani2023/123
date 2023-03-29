@@ -172,6 +172,11 @@ Sign in with the credentials: `username: Adi@Adi.com` and  `password: 4321`.
 - Student can select a quiz and attempt the quiz by clicking on the "Take Quiz" button along with it. <br/>
 ![student quizbank](docs/UI_Screenshots/Students/student-quizbank.png)
 
+3. Student - Take a Quiz
+- When a student clicks on the "Take a Quiz" button after picking a quiz to attempt, that student is redirected to this screen. 
+- The default quiz contains short answer questions. <br/>
+![student take a quiz](docs/UI_Screenshots/Students/student-take-a-quiz.png)
+
 
 ## Performance Review
 
