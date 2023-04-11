@@ -37,6 +37,7 @@ The following is the list of technologies that have been used in building this p
 - Javascript
 - React
 - Chakra UI
+- Mocha
 
 ## Team Members & Roles
 
@@ -51,8 +52,7 @@ The following is the list of technologies that have been used in building this p
    </td>
   </tr>
   <tr>
-   <td>Adithya 
-   </td>
+   <td>Adithya</td>
    <td><strong>202292768</strong>
    </td>
    <td><strong>Team Facilitator</strong>
@@ -98,11 +98,22 @@ The following is the list of technologies that have been used in building this p
 
 The following are links to the meeting minutes.
 
+### Sprint 1
+
 - [23 Feb 2023](docs/Meeting%20Minutes/Meeting_Minutes_23-Feb-2023.md)
 - [03 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_03-March-2023.md)
 - [05 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_05-March-2023.md)
 - [07 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_07-March-2023.md)
 - [10 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_10-March-2023.md)
+
+### Sprint 2
+
+- [14 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_14-March-2023.md)
+- [16 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_16-March-2023.md)
+- [17 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_17-March-2023.md)
+- [20 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_20-March-2023.md)
+- [25 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_25-March-2023.md)
+- [29 Mar 2023](docs/Meeting%20Minutes/Meeting_Minutes_29-March-2023.md)
 
 ## Team Processes
 
@@ -112,18 +123,161 @@ Details regarding the team contributions and team processes can be found [here](
 
 The individual contributions for each team member can be found here:
 
-- [Adithya](docs/Individual%20Contributions/Adithya_Sudhan.md)
-- [Mehadi](docs/Individual%20Contributions/Mehadi_Hassan.md)
-- [Majid](docs/Individual%20Contributions/Majid_Khan_Burki.md)
-- [Heshani](docs/Individual%20Contributions/Heshani_Hattiarachchi.md)
-- [Sumrish](docs/Individual%20Contributions/Sumrish_Hanif.md)
+- [Adithya](docs/Individual%20Contributions/Assignment%203/Adithya_Sudhan.md)
+- [Mehadi](docs/Individual%20Contributions/Assignment%203/Mehadi_Hassan.md)
+- [Majid](docs/Individual%20Contributions/Assignment%203/Majid_Burki.md)
+- [Heshani](docs/Individual%20Contributions/Assignment%203/Heshani_Hattiarachchi.md)
+- [Sumrish](docs/Individual%20Contributions/Assignment%203/Sumrish_Hanif.md)
+
+<table>
+    <tr>
+        <td>Name</td>
+        <td>Issue</td>
+        <td>Merged to Master?</td>
+    </tr>
+    <tr>
+        <td><a href = './docs/Individual%20Contributions/Assignment%203/Adithya_Sudhan.md'>Adithya</a>
+        <td>Admin page routing (https://github.com/MUN-COMP6905/project-hteam/issues/61)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Git + codesandbox strategy (https://github.com/MUN-COMP6905/project-hteam/issues/84)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Data layer (https://github.com/MUN-COMP6905/project-hteam/issues/65)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Add unit tests (https://github.com/MUN-COMP6905/project-hteam/issues/131)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td><a href = './docs/Individual%20Contributions/Assignment%203/Majid_Burki.md'>Majid</a></td>
+        <td>Add Test Cases for Question Data (https://github.com/MUN-COMP6905/project-hteam/issues/139)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Support for Multiple Choice and Multiple Answer Questions (https://github.com/MUN-COMP6905/project-hteam/issues/130)
+        </td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Connect Users to their Own Quiz (https://github.com/MUN-COMP6905/project-hteam/issues/78)
+        </td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Add Email Check (https://github.com/MUN-COMP6905/project-hteam/issues/128)
+        </td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>UML Diagram (https://github.com/MUN-COMP6905/project-hteam/issues/127)
+        </td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Issues with Student Dashboard (https://github.com/MUN-COMP6905/project-hteam/issues/94)
+        </td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td><a href = 'docs/Individual%20Contributions/Assignment%203/Mehadi_Hassan.md'>Mehadi</a></td>
+        <td>Implement User Session (https://github.com/MUN-COMP6905/project-hteam/issues/87)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Adding backend functionalities for &quot;Quiz Bank&quot; (https://github.com/MUN-COMP6905/project-hteam/issues/104)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Integrate Student Dashboard and Quizbank with the backend (https://github.com/MUN-COMP6905/project-hteam/issues/120)</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Wrting Unit Test for DB Connection and Other Classes (https://github.com/MUN-COMP6905/project-hteam/issues/126)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Updated the Readme File of the project (https://github.com/MUN-COMP6905/project-hteam/issues/136)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td><a href = './docs/Individual%20Contributions/Assignment%203/Sumrish_Hanif.md'>Sumrish</a></td>
+        <td>Create a Figma UI for Quiz Results Screen (https://github.com/MUN-COMP6905/project-hteam/issues/81)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Implementation of Quiz Result UI for students (https://github.com/MUN-COMP6905/project-hteam/issues/83)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Modification of SignUp Page and Forgot Password Pages. Added documentation for user flow UI. (https://github.com/MUN-COMP6905/project-hteam/issues/99)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Add tests for Sign Up page (https://github.com/MUN-COMP6905/project-hteam/issues/110)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Add tests for Login Page (https://github.com/MUN-COMP6905/project-hteam/issues/111)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Add tests for forgot password flow (https://github.com/MUN-COMP6905/project-hteam/issues/113)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td><a href = './docs/Individual%20Contributions/Assignment%203/Heshani_Hattiarachchi.md'>Heshani</a>
+        <td>Design wireframes for Take a Quiz UI (https://github.com/MUN-COMP6905/project-hteam/issues/76)</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Implement Quiz Bank UI for students (https://github.com/MUN-COMP6905/project-hteam/issues/45)</td>
+        <td>Yes</td>
+    </tr>
+     <tr>
+        <td></td>
+        <td>Implement Take a Quiz UI for students (https://github.com/MUN-COMP6905/project-hteam/issues/77)</td>
+        <td>Yes</td>
+    </tr>
+     <tr>
+        <td></td>
+        <td>Add Pagination for Student Dashboard (https://github.com/MUN-COMP6905/project-hteam/issues/116)</td>
+        <td>No</td>
+    </tr>
+     <tr>
+        <td></td>
+        <td>Test Cases for UI in Student Screens (https://github.com/MUN-COMP6905/project-hteam/issues/129)</td>
+        <td>Yes</td>
+    </tr>
+</table>
 
 ## How To Run
 
 ### On the cloud
 
-Simply visit our [codesandbox deployment](https://0nz1td-3000.csb.app/) and use [these](#credentials-to-use) credentials. 
-
+Simply visit our [codesandbox deployment](https://0mj3mq-3000.csb.app/) and use [these](#credentials-to-use) credentials.<br>
+To view the sprint 2 codebase on CodeSandbox - [Click Here](https://codesandbox.io/p/github/mehadihn/software-engineering-project/master)
 ### Locally
 
 To run the code locally, you’ll need to define your environment variables through the `.env.local` file or creating a `.env` file first. For a sample `.env` file, refer to `.env.example`. Use the same mongodb url (since it is set to the team mongodb instance url) and use your appropriate localhost url for the nextauth and host keys.
@@ -145,20 +299,42 @@ npm run dev
 
 ```
 
+To run the test cases
+
+```javascript
+
+npm test
+
+```
+
 ### Credentials to Use
 
-Sign in with the credentials: `username: Adi@Adi.com` and  `password: 4321`.
+Sign in with the credentials:
+- Admin: `username: mehadi@mehadi.com` and  `password: 1234`.
+- Student: `username: Adi@Adi.com` and  `password: 4321`.
 
 ## UML Diagrams
 
-![UML Diagram](docs/UML/UML.png)
+Previous UML diagram for Sprint 01
+![UML Diagram Sprint 01](docs/UML/UML_Sprint_1.png)
+
+Current UML diagram for Sprint 02
+![UML Diagram Sprint 02](docs/UML/UML_Sprint_2.png)
+
+- A data layer was added to separate the UI code from the backend. 
+- UI layer now needs to import a concrete MongoQuizData obejct to reach the database. Therefore, the db code has been removed from the UI code. 
+- The data layer implements two interfaces so that in the future we can replace mongo with another db client which implements the same interface.
+- Quiz, Questions and User collection has been used in the MongoDB to support the application.
+- Unit tests were written for the data layer as well as other business class that yet to be integrated end to end.
+
 
 ## What works?
 
 - The user starts at the landing page.
-- Signs in with the credentials: `username: Adi@Adi.com` and  `password: 4321`.
-- User will arrive at the `/Students` page where scored quizzes will be visible.
-- Clicking the `Retake Quiz` button will reset the score to -1.
+- Signs in with the credentials. If you log in using the Admin credentials (`username: mehadi@mehadi.com` and  `password: 1234`) it should redirect to the Admin home page and if logged in with the student credentials (`username: Adi@Adi.com` and  `password: 4321`) the user will be redirected to the studnet dashboard.
+- Clicking the `Retake Quiz` button will no longer reset the score as we will change the architecture around that button in the next sprint.
+- Although we have a few new UI pages as well as backend for them we are yet to merge some of this changes to the master due to git conflict resolutions that are still pending.
+
 
 ## Available Screens for students
 
@@ -177,6 +353,13 @@ Sign in with the credentials: `username: Adi@Adi.com` and  `password: 4321`.
 - The default quiz contains short answer questions. <br/>
 ![student take a quiz](docs/UI_Screenshots/Students/student-take-a-quiz.png)
 
+3. [Student - Login Signin, signup, forgot Pages](/docs/Figma%20UI%20Wireframes/Figma_SignUp_SignIn_ForgotPassword_UI.pdf)
+
+4. [Student - Quiz Result](/docs/Figma%20UI%20Wireframes/Quiz_Result_Figma_UI.pdf)
+
+5. [Screens for student section](/docs/Figma%20UI%20Wireframes/Quizzeria%20UI%20prototype%20for%20students%20-%20take%20a%20quiz.pdf)
+
+All the wireframes can be found [here](/docs/Figma%20UI%20Wireframes/).
 
 ## Performance Review
 

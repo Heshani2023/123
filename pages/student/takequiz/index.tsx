@@ -2,53 +2,88 @@ import Head from "next/head";
 import { ChakraProvider } from "@chakra-ui/react";
 import NavBar from "../../../components/studentNavbar";
 import Footer from "../../../components/Footer";
-import Card from "../../../components/ExamTitleCard";
 import ShortAnswerQuestionList from "../../../components/shortAnswerQuestions";
-import { Box } from "@chakra-ui/react";
-import clientPromise from "../../../src/lib/mongodb";
+import { Box, Heading, chakra } from "@chakra-ui/react";
+import MongoQuizData from "../../../src/data/dbconnection";
+import Question from "../../../src/business/models/question";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-export async function getServerSideProps() {
+interface TakeAQuizProps {
+  questions: Array<Question>;
+  subjectValue: string;
+  timeValue: number;
+}
+
+export async function getServerSideProps(context) {
+  const { subject,time } = context.query;
+  const subjectValue = subject ? subject : ''; //to derive subject value from query parameters and assigning " " as default value
+  const timeValue = time ? time : 0; //to derive time value from query parameters and assigning 0 as default value
   try {
-    const client = await clientPromise;
-    const db = client.db("test");
-
-    const quizzes = await db
-      .collection("quizes")
-      .find({})
-      .toArray();
-
+    var qd = new MongoQuizData();
+    let questions = await qd.findQuestionListOfAQuiz(subjectValue);
     return {
-      props: { quizzes: JSON.parse(JSON.stringify(quizzes)) },
+      props: {
+        questions: JSON.parse(JSON.stringify(questions)),
+        subjectValue,
+        timeValue: Number(timeValue)
+      },
     };
-  } catch (e) {
+  } 
+  catch (e) {
     console.error(e);
+    console.log("Error Occurred");
+    return {
+      props: {},
+    };
   }
 }
 /**
  * Function to return Take a Quiz UI for students
  * @returns Attempt a Quiz UI for students
  */
-export default function takeAQuiz() {
-  return (
-    <>
-      <Head>
-        <title>Quiz Bank</title>
-        <meta name="description" content="Quiz App Home for students" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <ChakraProvider>
-        <Box minHeight="100vh" display="flex" flexDirection="column">
-          <NavBar />
-          <Box justifyContent="center">
-            <Card />
-          </Box>
-          <Box flex="1" mx="auto" justifyContent="center" alignContent={"center"}>
-            <ShortAnswerQuestionList/>
-          </Box>
-          <Footer />
-        </Box>
-      </ChakraProvider>
-    </>
-  );
+export default function takeAQuiz({ questions,subjectValue,timeValue}: TakeAQuizProps) {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const userRole = (session: any) => {
+    let role = session?.user?.role;
+    if (role) return role;
+    return null;
+  };
+  useEffect(() => {
+    if (status === "unauthenticated") router.replace("/");
+  }, [status]);
+  if (status === "authenticated") {
+    var role: any = userRole(session);
+
+    if (role == "admin") {
+      router.replace("/admin");
+    } else if (role == "student") {
+      return (
+        <>
+          <Head>
+            <title>{subjectValue}</title>
+            <meta name="description" content="Quiz App Home for students" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <ChakraProvider>
+            <Box minHeight="100vh" display="flex" flexDirection="column">
+              <NavBar />
+              <Box textAlign={"center"} width={"100%"} margin={"auto"} paddingTop={'2vh'}>
+                <Heading fontSize={'4xl'}>{subjectValue}</Heading>
+                <chakra.h3 fontSize={'xl'} paddingTop={'1vh'}>{timeValue} min</chakra.h3>
+              </Box>
+              <Box flex="1" mx="auto" justifyContent="center" alignContent={"center"}>
+                <ShortAnswerQuestionList questions={questions}/>
+              </Box>
+              <Footer />
+            </Box>
+          </ChakraProvider>
+        </>
+      );
+    }
+  }
 }

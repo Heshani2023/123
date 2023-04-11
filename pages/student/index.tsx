@@ -5,23 +5,26 @@ import Footer from "../../components/Footer";
 import Card from "../../components/Card";
 import QuizTable from "../../components/studentHomeTable";
 import { Box } from "@chakra-ui/react";
-import clientPromise from "../../src/lib/mongodb";
-import Quiz from "../../src/models/Quiz";
-import { useSession, signIn, signOut } from "next-auth/react";
+import UserQuiz from "../../src/business/models/Quiz";
+import { useSession, getSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import MongoQuizData from "../../src/data/dbconnection";
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
   try {
-    const client = await clientPromise;
-    const db = client.db("test");
-
-    const quizzes = await db
-      .collection("quizes")
-      .find({})
-      .sort({ marks: -1 })
-      .toArray();
-
+    const session = await getSession({ req });
+    const dbUser = session?.user?.name;
+    var qd = new MongoQuizData();
+    let quizzes: UserQuiz[] = (await qd.findQuizzesTakenByUser(dbUser)) ?? [
+      {
+        //dummy data in case the query returns nothing
+        id: 0,
+        name: "DummyQuizName",
+        subject: "DummySubject",
+        marks: 0,
+      } as UserQuiz,
+    ];
     return {
       props: { quizzes: JSON.parse(JSON.stringify(quizzes)) },
     };
@@ -33,30 +36,31 @@ export async function getServerSideProps() {
 export default function StudentHome({ quizzes }) {
   const router = useRouter();
   const { data: session, status } = useSession();
-  
+
   const userRole = (session: any) => {
     let role = session?.user?.role;
     if (role) return role;
     return null;
   };
 
-  useEffect (() => {
-    if (status === "unauthenticated") router.replace ("/");
-    }, [status]);
-  
-    if (status === "authenticated"){
-      var role: any = userRole(session);
+  useEffect(() => {
+    if (status === "unauthenticated") router.replace("/");
+  }, [status]);
 
-      if (role == "admin") {
-        router.replace("/admin");
-      } else if (role == "student") {
-        
+  if (status === "authenticated") {
+    var role: any = userRole(session);
+if (role == "admin") {
+      router.replace("/admin");
+    } else if (role == "student") {
       return (
         <>
           <Head>
             <title>Quiz App</title>
             <meta name="description" content="Quiz App Home for students" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <ChakraProvider>

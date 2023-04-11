@@ -37,7 +37,6 @@ const authOptions: NextAuthOptions = {
           password: password,
         });
 
-        console.log("user found ", user);
         if (user) {
           // The user object that we have received from the DB
           return user;
@@ -59,20 +58,18 @@ const authOptions: NextAuthOptions = {
     },
     //   jwt callback is only called when token is created
     async jwt({ token, user }) {
-
       if (user) {
         token.user = user;
       }
-      console.log(token);
       return Promise.resolve(token);
     },
 
     session: async ({ session, token }) => {
-
       // session callback is called whenever a session for that particular user is checked
-      
+
       session.user = token.user;
       session.user.role = token.user.role;
+      session.user.name = token.user.name;
       return Promise.resolve(session);
     },
   },

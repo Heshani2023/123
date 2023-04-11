@@ -23,7 +23,7 @@ export default async (req, res) => {
     const { marks } = req.body;
 
     // Update the quiz marks in the "quizes" collection
-    const post = await db.collection("quizes").updateOne(
+    const post = await db.collection("users").updateOne(
       {
         _id: ObjectId(id),
       },

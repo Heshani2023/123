@@ -9,7 +9,7 @@ export default async (req, res) => {
 
     const quizes = await db
       .collection("quizes")
-      .find({ marks: { $exists: true } })
+      .find({})
       .sort({ marks: -1 })
       .toArray();
 
