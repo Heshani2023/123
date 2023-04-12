@@ -13,6 +13,7 @@ describe("MongoQuizData", () => {
   let uri;
   let client;
   let quizData;
+  let questionData;
 
   let sandbox = sinon.createSandbox();
 
@@ -39,13 +40,23 @@ describe("MongoQuizData", () => {
     await db.collection("users").insertOne({
       name: "John",
       lastname: "Doe",
-      username: "johndoe",
       email: "john@example.com",
       password: "password",
       role: "student",
       quizzes: [
         { subject: "Math", marks: 80 },
         { subject: "Science", marks: 90 },
+      ],
+    });
+
+    await db.collection("users").insertOne({
+      name: "Jane",
+      lastname: "Doe",
+      email: "jane@example.com",
+      password: "password",
+      role: "student",
+      quizzes: [
+        { subject: "Math", marks: 80 },
       ],
     });
     
@@ -85,6 +96,17 @@ describe("MongoQuizData", () => {
       expect(quizzes[0].subject).to.deep.equal("Math");
       expect(quizzes[1].name).to.deep.equal("Quiz2");
       expect(quizzes[1].subject).to.deep.equal("Science");
+    });
+  });
+
+  describe("findAllQuizzesWithQuizTakersCount", () => {
+    it("should return the count of the subject", async () => {
+      const quizzes = await quizData.findAllQuizzesWithQuizTakersCount();
+      expect(quizzes).to.have.lengthOf(2);
+      expect(quizzes[0].subject).to.deep.equal("Math");
+      expect(quizzes[0].quizTakers).to.deep.equal(2);
+      expect(quizzes[1].subject).to.deep.equal("Science");
+      expect(quizzes[1].quizTakers).to.deep.equal(1);
     });
   });
 
@@ -179,7 +201,6 @@ describe("MongoQuizData", () => {
 
       expect(user.name).to.deep.equal("John");
       expect(user.lastname).to.deep.equal("Doe");
-      expect(user.username).to.deep.equal("johndoe");
       expect(user.role).to.deep.equal("student");
       
     });
@@ -188,8 +209,20 @@ describe("MongoQuizData", () => {
       const user = await quizData.findUser("wrongEmail@example.com");
       expect(user.name).to.deep.equal("NotFound");
       expect(user.lastname).to.deep.equal("NotFound");
-      expect(user.username).to.deep.equal("NotFound");
       expect(user.role).to.deep.equal("NotFound");
+      
+    });
+
+  });
+
+  describe("addUser", () => {
+    it("should enter the new user and return the user", async () => {
+      const user = await quizData.addUser("Test" , "test@test.com" , "1234" , "student");
+
+      expect(user.name).to.deep.equal("Test");
+      expect(user.email).to.deep.equal("test@test.com");
+      expect(user.password).to.deep.equal("1234");
+      expect(user.role).to.deep.equal("student");
       
     });
 
@@ -208,4 +241,60 @@ describe("MongoQuizData", () => {
 
   });
 
+  describe("deleteQuiz", () => {
+    it("should delete a quiz object when given a valid subject", async () => {
+      const quiz = await quizData.deleteQuiz("Geography");
+      expect(quiz).to.deep.equal(true);
+    });
+
+  });
+
+  describe("unlinkQuestionFromQuiz", () => {
+    it("should set questions subject to null", async () => {
+      const question = await quizData.unlinkQuestionFromQuiz("Geography");
+      expect(question[0].subject).to.deep.equal('null');
+    });
+
+  });
+
+  describe('findQuestionListOfAQuiz', () => {
+    it('should return an array of questions when given a valid subject', async () => {
+      const subject = 'Geography';
+      const result = await questionData.findQuestionListOfAQuiz(subject);
+      assert(Array.isArray(result));
+      assert(result.length > 0);
+    });
+  
+    it('should return an empty array when given an invalid subject', async () => {
+      const subject = 'InvalidSubject';
+      const result = await questionData.findQuestionListOfAQuiz(subject);
+      assert(Array.isArray(result));
+      assert.strictEqual(result.length, 0);
+    });
+  });
+
+  describe('findQuizTime', () => {
+    it('should return an empty string when no quiz is found', async () => {
+      const subject = 'nonexistent-subject';
+      const time = await quizData.findQuizTime(subject);
+      expect(time).to.equal('');
+    });
+  
+    it('should return the time when the quiz is found', async () => {
+      const subject = 'Science';
+      const quizData = {
+        name: 'Quiz 1',
+        subject: 'Science',
+        type: 'SingleAnswer',
+        time:45,
+        maxMarks:100,
+        attempts:10,
+      };
+      const quiz = client.db('test').collection('quizes');
+      await quiz.insertOne(quizData);
+
+      const time = await quiz.findQuizTime(subject);
+      expect(time).to.equal(quizData.time);
+    });
+  });
 });

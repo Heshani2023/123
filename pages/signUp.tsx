@@ -10,7 +10,9 @@ import { LockIcon, EmailIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { Box,useColorModeValue,SimpleGrid,Button,Image,chakra,Stack } from "@chakra-ui/react";
 import { MdSupervisorAccount, MdPerson, MdAppRegistration } from 'react-icons/md'
 import type { NextPage } from "next";
-
+import PasswordCheck from '../src/business/validation/passCheck'
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 /**
  * Creates a User interface for Sign up.
  * A form will appear asking for user input i.e. full name, email, password, confirm password and role.
@@ -18,7 +20,6 @@ import type { NextPage } from "next";
 */
 
 const signUp: NextPage = () => {
-// export default function signUp() {
     const cardStyle = {
         opacity: 0.95
     }
@@ -28,21 +29,91 @@ const signUp: NextPage = () => {
     const toast = useToast();
 
     const router = useRouter();
-
+    const { data: session, status } = useSession();
 
     const handleSubmit = async (e: any) => {
+ 
         e.preventDefault();
-        toast({
-            title: "Success",
-            description: "The Backend Integration will be done in next sprint!!",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            colorScheme: "gray",
-          });
-        router.replace("/")
+        const name: string = e.target.name.value;
+        const email: string = e.target.email.value;
+        const password: string = e.target.password.value;
+        const confirmPassword: string = e.target.confirmPassword.value;
+        const role: string = e.target.role.value;
+        let passcheck = new PasswordCheck(password)
+
+        if (password !== confirmPassword){
+            toast({
+                title: "Error",
+                description: "Both the passwords are not same",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                colorScheme: "gray",
+              });
+        }
+
+        else if (passcheck.checkCases().passCases == false){
+            toast({
+                title: "Error",
+                description: passcheck.checkCases().errorMessage,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                colorScheme: "gray",
+            });
+        }
+
+        else {
+            const response = await fetch("/api/signup/signup-form", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, email, password, role }),
+            });
+            if (response.status == 500){
+                toast({
+                    title: "Error",
+                    description: 'User with same email already exists. Please try logging in instead.',
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                    colorScheme: "gray",
+                });
+            }
+            else if (response.status == 200){
+                toast({
+                    title: "Success",
+                    description: 'Successfully created a new account. Please try to log in.',
+                    status: "success",
+                    duration: 4000,
+                    isClosable: true,
+                    colorScheme: "gray",
+                });
+                router.replace("/")
+            }
+        }
     }
-    return (
+
+    useEffect(() => {
+        const userRole = (session: any) => {
+          let role = session?.user?.role;
+          if (role) return role;
+          return null;
+        };
+    
+        if (status === "authenticated") {
+          var role: any = userRole(session);
+          if (role == "admin") {
+            router.replace("/admin");
+          } else if (role == "student") {
+            router.replace("/student");
+          }
+        }
+      }, [status]);
+    
+      if (status === "unauthenticated")
+        return (
         <>
             <Box mx="auto" h={"100vh"} bg={"yellow.100"}>
                 <Head>
@@ -101,7 +172,7 @@ const signUp: NextPage = () => {
                                         fontSize='1.4em'
                                         children={<MdPerson color='yellow.400' />}
                                     />
-                                    <Input id="name" bg='yellow.400' marginLeft={10} marginEnd={10} type='text' placeholder='Full Name' textColor={'white'} required/>
+                                    <Input id="name" name="name" bg='yellow.400' marginLeft={10} marginEnd={10} type='text' placeholder='Full Name' textColor={'white'} required/>
                                 </InputGroup>
                            </FormControl>
 
@@ -113,7 +184,7 @@ const signUp: NextPage = () => {
                                         fontSize='1.4em'
                                         children={<EmailIcon color='yellow.400' />}
                                     />
-                                    <Input id="email" bg='yellow.400' marginLeft={10} marginEnd={10} type='email' placeholder='Email ID' textColor={'white'} required/>
+                                    <Input id="email" name="email" bg='yellow.400' marginLeft={10} marginEnd={10} type='email' placeholder='Email ID' textColor={'white'} required/>
                                 </InputGroup>
                             </FormControl>
 
@@ -125,7 +196,7 @@ const signUp: NextPage = () => {
                                         fontSize='1.2em'
                                         children={<LockIcon color='yellow.400' />}
                                     />
-                                    <Input  id="password" bg='yellow.400' marginLeft={10} marginEnd={10} type={showPass ? "text" : "password"} placeholder='Password' textColor={'white'} required/>
+                                    <Input  id="password" name="password" bg='yellow.400' marginLeft={10} marginEnd={10} type={showPass ? "text" : "password"} placeholder='Password' textColor={'white'} required/>
                                     <InputRightElement>
                                         <IconButton
                                             size={"sm"}
@@ -154,7 +225,7 @@ const signUp: NextPage = () => {
                                         fontSize='1.2em'
                                         children={<LockIcon color='yellow.400' />}
                                     />
-                                    <Input id="confirmPassword" bg='yellow.400' marginLeft={10} marginEnd={10} type={showPass ? "text" : "password"} placeholder='Confirm Password' textColor={'white'} required/>
+                                    <Input id="confirmPassword" bg='yellow.400' marginLeft={10} marginEnd={10} type={showPass ? "text" : "password"} placeholder='Confirm Password' name="confirmPassword" textColor={'white'} required/>
                                     <InputRightElement>
                                         <IconButton
                                             size={"sm"}
@@ -183,9 +254,9 @@ const signUp: NextPage = () => {
                                     fontSize='1.2em'
                                     children={<MdSupervisorAccount color='yellow.400' />}
                                 />
-                                <Select id="role" bg='yellow.400' marginLeft={10} marginEnd={10} textColor={'gray.500'} placeholder='Select Role' required>
-                                <option value='option1'>Student</option>
-                                <option value='option2'>Admin</option>
+                                <Select id="role" name="role" bg='yellow.400' marginLeft={10} marginEnd={10} textColor={'gray.500'} placeholder='Select Role' required>
+                                <option value='student'>Student</option>
+                                <option value='admin'>Admin</option>
                                 </Select>
                             </InputGroup>
                         </FormControl>

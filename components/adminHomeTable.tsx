@@ -1,70 +1,47 @@
-/**
- * Designing a table view for Admins to display their current quizzes
- */
-import { Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
-import { Quiz } from "../src/business/models/QuizAdmin";
+import { Table, Thead, Tbody, Tr, Th, Td, Button, useToast } from "@chakra-ui/react";
+import { AdminQuizList } from "../src/business/models/Quiz";
+import { useRouter } from 'next/router'
 
-/**
- * Interface props to define the Quiz using the types defined in tpes/admin_quiz file.
- */
-interface Props {
-  quizzes: Quiz[];
+interface QuizTableProps {
+  quizzes: AdminQuizList[];
 }
 
-/**
- * Defined the array of Quiz data for loading data for the quiz data table. 
- * This Json array will be replaced by the backend developer with database data
- */
-const quizzes: Quiz[] = [
-  {
-    id: 1,
-    name: "Quiz 1",
-    subject: "Math",
-    type: "Multiple Choice",
-    marks:"16/20",
-    time:"60 min",
-    quizTakers:10,
-    Attempts:2
-  },
-  {
-    id: 2,
-    name: "Quiz 2",
-    subject: "English",
-    type: "True or False",
-    marks:"80%",
-    time:"20 min",
-    quizTakers:15,
-    Attempts:2
-  },
-  {
-    id: 3,
-    name: "Quiz 8",
-    subject: "Science",
-    type: "Fill in the Blanks",
-    marks:"30%",
-    time:"60 min",
-    quizTakers:35,
-    Attempts:5
-  },
-  {
-    id: 4,
-    name: "Quiz 15",
-    subject: "IQ",
-    type: "Short Answer",
-    marks:"90/100",
-    time:"10 min",
-    quizTakers:10,
-    Attempts:2
-  },
-  // Add more quizzes as needed
-];
+export default function QuizTable({quizzes}: QuizTableProps) {
+  const router = useRouter();
+  const toast = useToast();
 
-/**
- * To define the table and map it with the quiz data object
- * @param param0 : Quiz object created with the types for loading data
- * @returns a table of quiz data related to the admin
- */
-const QuizTable = ({ quizzes }: Props) => {
+  const handleClick = async (subject: string) => {
+    const response = await fetch("/api/admin/deleteQuiz", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ subject }),
+    });
+    
+    if (response.status == 200) {
+      toast({
+        title: "Success",
+        description: 'Successfully deleted the quiz',
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        colorScheme: "gray",
+      });
+      router.replace("/admin")
+    }
+    else {
+      toast({
+        title: "Error",
+        description: 'Something went wrong.',
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        colorScheme: "gray",
+      });
+    }
+  };
+
   return (
     <Table variant="striped">
       <Thead>
@@ -81,34 +58,24 @@ const QuizTable = ({ quizzes }: Props) => {
         </Tr>
       </Thead>
       <Tbody>
-        {quizzes.map((quiz) => (
+        {quizzes.quiz.map((quiz) => (
           <Tr key={quiz.id}>
             <Td>{quiz.name}</Td>
             <Td>{quiz.subject}</Td>
             <Td>{quiz.type}</Td>
-            <Td>{quiz.marks}</Td>
+            <Td>{quiz.maxMarks}</Td>
             <Td>{quiz.time}</Td>
             <Td>{quiz.quizTakers}</Td>
-            <Td>{quiz.Attempts}</Td>
+            <Td>{quiz.attempts}</Td>
             <Td textAlign={"right"}>
               <Button colorScheme="orange">Edit</Button>
             </Td>
             <Td textAlign={"right"}>
-              <Button colorScheme="orange">Delete</Button>
+              <Button colorScheme="orange" onClick={() => handleClick(quiz.subject)}>Delete</Button>
             </Td>
           </Tr>
         ))}
       </Tbody>
     </Table>
   );
-};
-
-/**
- * To load data to the designed QuizTable
- * @returns data for the quiz table
- */
-const TableView2 = () => {
-  return <QuizTable quizzes={quizzes} />;
-};
-
-export default TableView2;
+}

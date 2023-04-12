@@ -10,41 +10,34 @@ export default class PasswordCheck {
     let passCases = true;
     let errorMessage = '';
     if (this.password.length < 8) {
-      errorMessage += 'The password must contain at least 8 characters\n';
+      errorMessage += 'The password must contain at least 8 characters.\n';
       passCases = false;
     }
 
     // Check Only Letters value
     if (/^[a-zA-Z]+$/.test(this.password) == true) {
-      errorMessage += 'The password cannot contain only letters\n';
+      errorMessage += 'The password cannot contain only letters.\n';
       passCases = false;
     }
 
     // Check Only number value
     if (/^\d+$/.test(this.password) == true) {
-      errorMessage += 'The password cannot contain only numbers\n';
+      errorMessage += 'The password cannot contain only numbers.\n';
       passCases = false;
     }
 
     // Check numeric value
     if (/\d/.test(this.password) !== true) {
-      errorMessage += 'The password must contain at least 1 numeric value\n';
+      errorMessage += 'The password must contain at least 1 numeric value.\n';
       passCases = false;
     }
       
       // Check special characters
       if (/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(this.password) !== true) {
-        errorMessage += 'The password must contain at least 1 special character\n';
+        errorMessage += 'The password must contain at least 1 special character.\n';
         passCases = false;
       }
   
       return { passCases, errorMessage };
     }
   }
-  
-  // let password = new passWordCheck("abcd");
-  // console.log("Password Given: " , password)
-  // const { passCases, errorMessage } = password.checkCases();
-  // console.log(passCases);
-  // console.log(errorMessage);
-  
